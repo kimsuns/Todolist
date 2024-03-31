@@ -9,6 +9,7 @@
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",
     "no-shadow": "off",
+    "react/button-has-type": "off",
     "prettier/prettier": [
       "error",
       {
