@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Todo() {
-  const [todo, setTodo] = useState('');
+  const [todo, setTodo] = useState({
+    title: '',
+  });
   const [todoList, setTodoList] = useState([]);
 
   const handleTodoSubmit = e => {
@@ -16,6 +18,28 @@ export default function Todo() {
     console.log('todoList:', todoList);
   };
 
+  // async function getTodos(){
+  //   try {
+  //     const res = await fetch('/todos')
+  //     .then const result = await res.json()
+  //     .then
+  //   }
+  // }
+
+  useEffect(() => {
+    const getTodos = async () => {
+      try {
+        const res = await fetch('/todos');
+        const data = await res.json();
+        setTodoList(data);
+      } catch (error) {
+        console.error('api 호출 에러:', error);
+      }
+    };
+
+    getTodos();
+  }, []);
+
   return (
     <div>
       <form>
@@ -28,7 +52,7 @@ export default function Todo() {
       </form>
       <div>
         {todoList.map(e => (
-          <div>{e}</div>
+          <div key={e.id}>{`${e.id}: ${e.title}`}</div>
         ))}
       </div>
     </div>
