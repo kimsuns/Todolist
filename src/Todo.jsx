@@ -2,19 +2,25 @@ import { useEffect, useState } from 'react';
 
 export default function Todo() {
   const [todo, setTodo] = useState({
+    id: '',
     title: '',
   });
   const [todoList, setTodoList] = useState([]);
 
   const handleTodoSubmit = e => {
-    setTodo(e);
+    setTodo({
+      id: 1,
+      title: e,
+    });
     console.log('todo', todo);
   };
 
   const onSubmitTodo = e => {
     e.preventDefault();
     setTodoList([...todoList, todo]);
-    setTodo('');
+    setTodo({
+      title: '',
+    });
     console.log('todoList:', todoList);
   };
 
@@ -45,7 +51,7 @@ export default function Todo() {
       <form>
         <input
           type="text"
-          value={todo}
+          value={todo.title}
           onChange={e => handleTodoSubmit(e.target.value)}
         />
         <button onClick={onSubmitTodo}>추가</button>
