@@ -2,35 +2,27 @@ import { useEffect, useState } from 'react';
 
 export default function Todo() {
   const [todo, setTodo] = useState({
-    id: '',
     title: '',
   });
   const [todoList, setTodoList] = useState([]);
 
   const handleTodoSubmit = e => {
     setTodo({
-      id: 1,
       title: e,
     });
     console.log('todo', todo);
   };
 
-  const onSubmitTodo = e => {
+  const onSubmitTodo = async e => {
     e.preventDefault();
+    const result = await handleAddTodo();
     setTodoList([...todoList, todo]);
     setTodo({
       title: '',
     });
-    console.log('todoList:', todoList);
-  };
 
-  // async function getTodos(){
-  //   try {
-  //     const res = await fetch('/todos')
-  //     .then const result = await res.json()
-  //     .then
-  //   }
-  // }
+    console.log('result 값:', result);
+  };
 
   useEffect(() => {
     const getTodos = async () => {
@@ -42,9 +34,26 @@ export default function Todo() {
         console.error('api 호출 에러:', error);
       }
     };
-
     getTodos();
   }, []);
+
+  const handleAddTodo = async () => {
+    try {
+      const res = await fetch('/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(todo),
+      });
+
+      const data = await res.json();
+      console.log('투두 추가시 응답 :', res);
+      return data;
+    } catch {
+      console.log('투두 추가 실패');
+    }
+  };
 
   return (
     <div>
@@ -58,7 +67,7 @@ export default function Todo() {
       </form>
       <div>
         {todoList.map(e => (
-          <div key={e.id}>{`${e.id}: ${e.title}`}</div>
+          <div key={e.id}>{`${e.title}`}</div>
         ))}
       </div>
     </div>
@@ -81,7 +90,8 @@ export default function Todo() {
 
   return (
     <div>
-      <input type="text" value={todo} onChange={handleTodoSubmit} />
+      <input type="text" value={todo} 
+      onChange={handleTodoSubmit} />
       <button>추가</button>
     </div>
   );

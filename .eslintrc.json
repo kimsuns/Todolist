@@ -10,11 +10,12 @@
     "react/react-in-jsx-scope": "off",
     "no-shadow": "off",
     "react/button-has-type": "off",
+    "prefer-destructuring": "off",
     "prettier/prettier": [
       "error",
       {
         "endOfLine": "auto"
       }
     ]
-  }
+  },
 }
