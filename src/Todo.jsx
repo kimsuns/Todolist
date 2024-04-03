@@ -16,7 +16,7 @@ export default function Todo() {
   const onSubmitTodo = async e => {
     e.preventDefault();
     const result = await handleAddTodo();
-    setTodoList([...todoList, todo]);
+    setTodoList([...todoList, result]);
     setTodo({
       title: '',
     });
@@ -67,7 +67,7 @@ export default function Todo() {
       </form>
       <div>
         {todoList.map(e => (
-          <div key={e.id}>{`${e.title}`}</div>
+          <div key={e.id}>{`${e.id}: ${e.title}`}</div>
         ))}
       </div>
     </div>
