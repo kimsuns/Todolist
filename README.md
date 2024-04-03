@@ -9,3 +9,22 @@ resposne type
     title: string
 }[]
 ```
+
+---
+
+POST /todos
+
+```
+request body
+{
+  title: string
+}
+```
+
+```
+resposne type
+{
+    id: number
+    title: string
+}
+```
