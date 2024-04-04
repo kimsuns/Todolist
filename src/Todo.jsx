@@ -67,6 +67,9 @@ export default function Todo() {
 
       const data = await res.json();
       console.log('res값:', data);
+
+      const newTodoList = todoList.filter(e => e.id !== data.id);
+      setTodoList(newTodoList);
     } catch (error) {
       console.error(error);
     }
