@@ -35,7 +35,7 @@ export default function Todo() {
       }
     };
     getTodos();
-  }, []);
+  }, [setTodoList]);
 
   const handleAddTodo = async () => {
     try {
@@ -55,6 +55,23 @@ export default function Todo() {
     }
   };
 
+  const handleDeleteTodo = async id => {
+    try {
+      const res = await fetch(`/todos/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(id),
+      });
+
+      const data = await res.json();
+      console.log('res값:', data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <form>
@@ -67,7 +84,10 @@ export default function Todo() {
       </form>
       <div>
         {todoList.map(e => (
-          <div key={e.id}>{`${e.id}: ${e.title}`}</div>
+          <div key={e.id}>
+            {`${e.id}: ${e.title}`}
+            <button onClick={() => handleDeleteTodo(e.id)}>삭제</button>
+          </div>
         ))}
       </div>
     </div>
