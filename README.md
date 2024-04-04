@@ -28,3 +28,12 @@ resposne type
     title: string
 }
 ```
+
+---
+
+DELETE /todos/:id
+
+```
+response type
+{ id: number }
+```
