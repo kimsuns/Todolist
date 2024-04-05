@@ -37,3 +37,24 @@ DELETE /todos/:id
 response type
 { id: number }
 ```
+
+---
+
+---
+
+PUT /todos/:id
+
+```
+request body
+{
+  title: string
+}
+```
+
+```
+resposne type
+{
+    id: number
+    title: string
+}
+```
