@@ -6,10 +6,7 @@ export default function Todo() {
     title: '',
   });
   const [todoList, setTodoList] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
-  const [newTodo, setNewTodo] = useState({
-    title: '',
-  });
+  const [newTodoList, setNewTodoList] = useState([]);
 
   const handleTodoSubmit = e => {
     setTodo({
@@ -63,32 +60,39 @@ export default function Todo() {
       const data = await res.json();
       console.log('res값:', data);
 
-      const newTodoList = todoList.filter(e => e.id !== data.id);
+      setNewTodoList(todoList.filter(e => e.id !== data.id));
       setTodoList(newTodoList);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleEditTodo = async () => {
+  const handleEditTodo = async (id, newTodo) => {
     try {
       const res = await fetch(`/todos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(),
+        body: JSON.stringify(newTodo),
       });
 
-      const data = await res.json();
-      return data;
+      console.log('수정시 res', res);
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+
+        const newTo = todoList.map(e =>
+          e.id === data.id ? { ...e, title: data.title } : e,
+        );
+
+        console.log(newTo);
+        setTodoList(newTo);
+      }
     } catch {
       console.log('투두 수정 실패');
     }
-  };
-
-  const handleIsEdit = () => {
-    setIsEdit(!isEdit);
   };
 
   const onSubmitTodo = async e => {
@@ -114,7 +118,12 @@ export default function Todo() {
       </form>
       <div>
         {todoList.map(e => (
-          <TodoItem id={e.id} title={e.title} />
+          <TodoItem
+            id={e.id}
+            title={e.title}
+            handleDeleteTodo={handleDeleteTodo}
+            handleEditTodo={handleEditTodo}
+          />
         ))}
       </div>
       {/* <div>
