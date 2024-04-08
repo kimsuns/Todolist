@@ -5,23 +5,13 @@ export default function Todo() {
     title: '',
   });
   const [todoList, setTodoList] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleTodoSubmit = e => {
     setTodo({
       title: e,
     });
     console.log('todo', todo);
-  };
-
-  const onSubmitTodo = async e => {
-    e.preventDefault();
-    const result = await handleAddTodo();
-    setTodoList([...todoList, result]);
-    setTodo({
-      title: '',
-    });
-
-    console.log('result 값:', result);
   };
 
   useEffect(() => {
@@ -53,6 +43,7 @@ export default function Todo() {
     } catch {
       console.log('투두 추가 실패');
     }
+    return data;
   };
 
   const handleDeleteTodo = async id => {
@@ -75,6 +66,25 @@ export default function Todo() {
     }
   };
 
+  // const handleEditTodo = () => {
+  //   setIsEdit(true);
+  // };
+
+  const handleIsEdit = () => {
+    setIsEdit(!isEdit);
+  };
+
+  const onSubmitTodo = async e => {
+    e.preventDefault();
+    const result = await handleAddTodo();
+    setTodoList([...todoList, result]);
+    setTodo({
+      title: '',
+    });
+
+    console.log('result 값:', result);
+  };
+
   return (
     <div>
       <form>
@@ -88,8 +98,19 @@ export default function Todo() {
       <div>
         {todoList.map(e => (
           <div key={e.id}>
-            {`${e.id}: ${e.title}`}
-            <button onClick={() => handleDeleteTodo(e.id)}>삭제</button>
+            {!isEdit ? (
+              <div>
+                {e.id}: {e.title}
+                <button onClick={() => handleDeleteTodo(e.id)}>삭제</button>
+                <button onClick={handleIsEdit}>수정</button>
+              </div>
+            ) : (
+              <div>
+                <button onClick={handleIsEdit}>취소</button>
+                <button>확인</button>
+              </div>
+            )}
+            {/* 수정을 누르면 삭제,수정 버튼 대신 취소, 확인 버튼. todp가 input에 담겨 수정할 수 있어야 함 */}
           </div>
         ))}
       </div>
