@@ -58,3 +58,29 @@ resposne type
     title: string
 }
 ```
+
+---
+
+GET /dashboards
+
+```
+resposne type
+{
+    id: number
+    title: string
+}[]
+```
+
+---
+
+GET /dashboards/:id/todos
+
+```
+resposne type
+{
+    id: number
+    title: string
+}[]
+```
+
+---
