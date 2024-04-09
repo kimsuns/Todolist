@@ -24,6 +24,66 @@ let data = [
   },
 ];
 
+const dashboardsData = [
+  {
+    id: 1,
+    title: 'dashboard_1',
+  },
+  {
+    id: 2,
+    title: 'dashboard_2',
+  },
+  {
+    id: 3,
+    title: 'dashboard_3',
+  },
+];
+
+const dashboardTodos = {
+  1: [
+    {
+      id: 1,
+      title: 'React 공부하기',
+    },
+    {
+      id: 2,
+      title: '타입스트립트 공부하기',
+    },
+    {
+      id: 3,
+      title: 'next.js 공부하기',
+    },
+  ],
+  2: [
+    {
+      id: 4,
+      title: 'javascript 공부하기',
+    },
+    {
+      id: 5,
+      title: 'useEffect 공부하기',
+    },
+  ],
+  3: [
+    {
+      id: 6,
+      title: 'SSR 공부하기',
+    },
+    {
+      id: 7,
+      title: '상태관리',
+    },
+  ],
+};
+
+const getDashboards = http.get('/dashboards', () =>
+  HttpResponse.json(dashboardsData, { status: 200 }),
+);
+
+const getDashboardsTodos = http.get('/dashboards/:id/todos', ({ params }) =>
+  HttpResponse.json(dashboardTodos[Number(params.id)], { status: 200 }),
+);
+
 const getTodos = http.get('/todos', () =>
   HttpResponse.json(data, { status: 200 }),
 );
@@ -51,7 +111,14 @@ const postTodo = http.post('/todos', async ({ request }) => {
   return HttpResponse.json(todo, { status: 201 });
 });
 
-const handlers = [getTodos, putTodo, deleteTodo, postTodo];
+const handlers = [
+  getTodos,
+  putTodo,
+  deleteTodo,
+  postTodo,
+  getDashboards,
+  getDashboardsTodos,
+];
 
 export default handlers;
 
