@@ -7,6 +7,7 @@ export default function Todo() {
   });
   const [todoList, setTodoList] = useState([]);
   const [newTodoList, setNewTodoList] = useState([]);
+  const [isInput, setIsInput] = useState(false);
 
   const handleTodoSubmit = e => {
     setTodo({
@@ -109,6 +110,7 @@ export default function Todo() {
     } catch (error) {
       console.error('대시보드 api 호출 에러:', error);
     }
+    setIsInput(true);
   };
 
   const onSubmitTodo = async e => {
@@ -129,14 +131,16 @@ export default function Todo() {
         <button onClick={() => onGetTodo(2)}>dashboard_2</button>
         <button onClick={() => onGetTodo(3)}>dashboard_3</button>
       </div>
-      <form>
-        <input
-          type="text"
-          value={todo.title}
-          onChange={e => handleTodoSubmit(e.target.value)}
-        />
-        <button onClick={onSubmitTodo}>추가</button>
-      </form>
+      {isInput ? (
+        <form>
+          <input
+            type="text"
+            value={todo.title}
+            onChange={e => handleTodoSubmit(e.target.value)}
+          />
+          <button onClick={onSubmitTodo}>추가</button>
+        </form>
+      ) : null}
       <div>
         {todoList.map(e => (
           <TodoItem
