@@ -15,18 +15,18 @@ export default function Todo() {
     console.log('todo', todo);
   };
 
-  // useEffect(() => {
-  //   const getTodos = async () => {
-  //     try {
-  //       const res = await fetch('/dashboards');
-  //       const data = await res.json();
-  //       setTodoList(data);
-  //     } catch (error) {
-  //       console.error('api 호출 에러:', error);
-  //     }
-  //   };
-  //   getTodos();
-  // }, [setTodoList]);
+  useEffect(() => {
+    const getTodos = async () => {
+      try {
+        const res = await fetch('/todos');
+        const data = await res.json();
+        setTodoList(data);
+      } catch (error) {
+        console.error('api 호출 에러:', error);
+      }
+    };
+    getTodos();
+  }, [setTodoList]);
 
   const handleAddTodo = async () => {
     try {
@@ -101,16 +101,6 @@ export default function Todo() {
     }
   };
 
-  const onGetTodo = async id => {
-    try {
-      const res = await fetch(`/dashboards/${id}/todos`);
-      const data = await res.json();
-      setTodoList(data);
-    } catch (error) {
-      console.error('대시보드 api 호출 에러:', error);
-    }
-  };
-
   const onSubmitTodo = async e => {
     e.preventDefault();
     const result = await handleAddTodo();
@@ -125,9 +115,9 @@ export default function Todo() {
   return (
     <div>
       <div>
-        <button onClick={() => onGetTodo(1)}>dashboard_1</button>
-        <button onClick={() => onGetTodo(2)}>dashboard_2</button>
-        <button onClick={() => onGetTodo(3)}>dashboard_3</button>
+        <button>dashboard_1</button>
+        <button>dashboard_2</button>
+        <button>dashboard_3</button>
       </div>
       <form>
         <input
@@ -170,28 +160,3 @@ export default function Todo() {
     </div>
   );
 }
-
-/*
-왜 에러날까요...?
-[eslint] 
-src\Todo.jsx
-  Line 45:11:  Use object destructuring  prefer-destructuring
-
-export default function Todo() {
-  const [todo, setTodo] = useState('');
-
-  const handleTodoSubmit = e => {
-    const value = e.target.value;
-    setTodo(value);
-  };
-
-  return (
-    <div>
-      <input type="text" value={todo} 
-      onChange={handleTodoSubmit} />
-      <button>추가</button>
-    </div>
-  );
-}
-
-*/
